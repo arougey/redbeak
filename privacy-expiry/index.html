@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Privacy Policy - Expiry</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, system-ui, sans-serif; max-width: 760px; margin: 0 auto; padding: 32px 20px; line-height: 1.55; color: #1a1a1a; }
+    h1 { margin-top: 0; }
+    h2 { margin-top: 28px; border-bottom: 1px solid #eee; padding-bottom: 4px; }
+    h3 { margin-top: 20px; font-size: 1em; }
+    code { background: #f4f4f4; padding: 1px 5px; border-radius: 3px; font-size: 0.92em; }
+    ul { padding-left: 22px; }
+    .meta { color: #666; font-size: 0.9em; }
+  </style>
+</head>
+<body>
+  <h1>Privacy Policy — Expiry</h1>
+  <p class="meta">Last updated: January 2026<br>
+    Expiry ("the App") is developed by RedBeak LLC ("we," "us," "our"). This policy explains what data the App accesses, how we use it, and the choices you have.</p>
+
+  <h2>Summary</h2>
+  <ul>
+    <li>We connect to your Gmail to find purchase confirmations and extract return-by and warranty dates.</li>
+    <li>We read only the parts of your inbox needed to do that. We do not read unrelated personal email.</li>
+    <li>We never sell your data, share it with advertisers, or use it to train AI models.</li>
+    <li>You can delete your account and all associated data at any time from the app's Settings.</li>
+  </ul>
+
+  <h2>1. Data We Access and Why</h2>
+
+  <h3>Google account info</h3>
+  <p>When you sign in with Google, we receive your email address, Google account ID, and basic profile info (name, profile picture). We use this to create your Expiry account and identify you across sessions.</p>
+
+  <h3>Gmail content (restricted scope)</h3>
+  <p>With your explicit consent, the App requests the <code>https://www.googleapis.com/auth/gmail.readonly</code> scope. We use this scope to:</p>
+  <ul>
+    <li>Search your Gmail for messages matching purchase-related queries (order confirmations, receipts, invoices, shipping notifications, subscription billing).</li>
+    <li>Read the subject, sender, date, and body of those messages to extract: retailer name, item description, total amount, order number, return window, and warranty length.</li>
+    <li>Build the structured receipts, warranties, and subscriptions shown in the app.</li>
+  </ul>
+  <p>We do not read messages outside these queries. We do not store full email contents on our servers — only the structured fields extracted (retailer, amount, dates, etc.) and a short truncated snippet used for debugging parser accuracy.</p>
+
+  <h3>Optional in-app feedback</h3>
+  <p>When you tap "Incorrect" on a parsed entry, we record the entry's identifier, the reason you selected, and any notes you provide. This helps us improve parsing accuracy for everyone.</p>
+
+  <h3>Subscription / purchase data</h3>
+  <p>If you upgrade to Expiry Premium, purchase records are processed by Apple (App Store) or Google (Play Store). We receive a confirmation that you have an active subscription, but not your payment details.</p>
+
+  <h3>Diagnostic data</h3>
+  <p>The App may log non-personal technical diagnostics (e.g., parser failures) to help us improve the service. We do not log message contents in these logs.</p>
+
+  <h2>2. Google API Services User Data Policy &mdash; Limited Use</h2>
+  <p>Expiry's use of information received from Google APIs adheres to the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>, including the Limited Use requirements. Specifically:</p>
+  <ul>
+    <li>We only use access to your Gmail to provide and improve user-facing features that are prominent in the App: tracking return windows, warranties, and subscriptions you have asked us to surface.</li>
+    <li>We do not transfer Gmail data to others except as necessary to provide and improve those features, comply with applicable law, or as part of a merger or acquisition (in which case the same restrictions apply to the successor).</li>
+    <li>We do not use Gmail data for serving advertisements.</li>
+    <li>We do not allow humans to read your Gmail data unless we have your explicit consent, it is necessary for security purposes (e.g., investigating abuse), to comply with applicable law, or for our internal operations limited to debugging the parser, in which case the data is aggregated, anonymized, or restricted to the minimum needed.</li>
+    <li>We do not use Gmail data to develop, improve, or train generalized AI/ML models.</li>
+  </ul>
+
+  <h2>3. How We Store and Protect Your Data</h2>
+  <ul>
+    <li>Your account data and the structured fields we extract from receipts are stored on servers operated by RedBeak LLC and hosted by reputable cloud providers (currently Fly.io, United States region).</li>
+    <li>Data is transmitted between the App and our servers over HTTPS (TLS).</li>
+    <li>Your Google access and refresh tokens are stored encrypted at rest on our servers and used solely to read receipts on your behalf.</li>
+    <li>We retain your data only as long as your account is active. If you delete your account, we delete your data within 30 days, except where retention is required by law.</li>
+  </ul>
+
+  <h2>4. Sharing and Third Parties</h2>
+  <p>We do not sell your data. We share data only with the following service providers, strictly as necessary to operate the App:</p>
+  <ul>
+    <li><strong>Google</strong> &mdash; for OAuth sign-in and Gmail API access. Governed by <a href="https://policies.google.com/privacy">Google's Privacy Policy</a>.</li>
+    <li><strong>Apple</strong> (iOS) and <strong>Google Play</strong> (Android, future) &mdash; for in-app purchases. Governed by their respective policies.</li>
+    <li><strong>Our hosting provider</strong> (currently Fly.io) &mdash; for compute and storage. Governed by their <a href="https://fly.io/legal/privacy-policy/">Privacy Policy</a>.</li>
+  </ul>
+  <p>We do not share your data with advertisers, data brokers, or analytics resellers.</p>
+
+  <h2>5. Your Rights and Controls</h2>
+  <ul>
+    <li><strong>Review your data</strong> &mdash; the App displays all data we hold about you under the Receipts and Subscriptions tabs.</li>
+    <li><strong>Delete your data and account</strong> &mdash; open the App's Settings tab and select "Delete account." This wipes your data from our servers within 30 days.</li>
+    <li><strong>Revoke Gmail access at any time</strong> &mdash; visit <a href="https://myaccount.google.com/permissions">myaccount.google.com/permissions</a>, find "Expiry," and remove access. After revocation, future syncs will stop.</li>
+    <li><strong>Export your data</strong> &mdash; email us at <a href="mailto:redbeakdev@gmail.com">redbeakdev@gmail.com</a> to request a JSON export of your structured receipt and subscription data.</li>
+  </ul>
+
+  <h2>6. Children's Privacy</h2>
+  <p>The App is not intended for children under 13. We do not knowingly collect data from children under 13. If we learn we have collected data from a child under 13, we will delete it.</p>
+
+  <h2>7. International Transfers</h2>
+  <p>Our servers are located in the United States. If you use the App from outside the U.S., your data is transferred to and processed in the U.S. By using the App, you consent to this transfer.</p>
+
+  <h2>8. Changes to This Policy</h2>
+  <p>We may update this policy from time to time. When we do, we will update the "Last updated" date at the top. Material changes will be notified in-app. Continued use of the App after changes constitutes acceptance.</p>
+
+  <h2>9. Contact</h2>
+  <p>Questions, requests, or concerns: <a href="mailto:redbeakdev@gmail.com">redbeakdev@gmail.com</a></p>
+  <p>RedBeak LLC<br>Wyoming, United States</p>
+</body>
+</html>
