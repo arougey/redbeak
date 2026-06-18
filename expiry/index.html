@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Expiry — Never miss a return window again</title>
+  <meta name="description" content="Expiry scans your inbox for receipts and warranties, then reminds you before return windows close, warranties expire, and subscriptions renew. Get your money back." />
+
+  <!-- Open Graph / social preview -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Expiry — Never miss a return window again" />
+  <meta property="og:description" content="Your receipts, returns, and warranties — tracked automatically from your inbox. Join the early-access waitlist." />
+  <meta property="og:url" content="https://redbeak.app/expiry/" />
+  <meta name="theme-color" content="#0f172a" />
+
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-2: #1e293b;
+      --card: rgba(30, 41, 59, 0.55);
+      --border: rgba(148, 163, 184, 0.14);
+      --ink: #f1f5f9;
+      --ink-dim: #94a3b8;
+      --ink-faint: #64748b;
+      --accent-a: #f97316;
+      --accent-b: #ef4444;
+      --radius: 18px;
+      --maxw: 1080px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Ambient brand glow */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(620px 420px at 78% -8%, rgba(249, 115, 22, 0.18), transparent 60%),
+        radial-gradient(560px 380px at 12% 6%, rgba(239, 68, 68, 0.12), transparent 60%),
+        linear-gradient(180deg, var(--bg) 0%, #111c33 100%);
+      z-index: -1;
+    }
+
+    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+
+    .gradient-text {
+      background: linear-gradient(100deg, var(--accent-a), var(--accent-b));
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* ---------- Nav ---------- */
+    nav {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 0;
+    }
+    .brand { display: flex; align-items: center; gap: 11px; font-weight: 700; font-size: 1.18rem; letter-spacing: -0.02em; }
+    .brand .logo { width: 34px; height: 34px; border-radius: 9px; display: block; }
+    nav .nav-cta {
+      font-size: 0.92rem; font-weight: 600; color: var(--ink);
+      text-decoration: none; padding: 9px 16px; border-radius: 999px;
+      border: 1px solid var(--border); transition: border-color .2s, background .2s;
+    }
+    nav .nav-cta:hover { border-color: rgba(249,115,22,0.5); background: rgba(249,115,22,0.08); }
+
+    /* ---------- Hero ---------- */
+    .hero { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 56px; align-items: center; padding: 56px 0 70px; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase;
+      color: var(--accent-a);
+      background: rgba(249, 115, 22, 0.1);
+      border: 1px solid rgba(249, 115, 22, 0.22);
+      padding: 6px 13px; border-radius: 999px; margin-bottom: 22px;
+    }
+    .eyebrow .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-a); box-shadow: 0 0 0 0 rgba(249,115,22,0.6); animation: pulse 2.2s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(249,115,22,0.55); } 70% { box-shadow: 0 0 0 8px rgba(249,115,22,0); } 100% { box-shadow: 0 0 0 0 rgba(249,115,22,0); } }
+
+    h1 { font-size: clamp(2.3rem, 5.2vw, 3.5rem); line-height: 1.05; letter-spacing: -0.03em; font-weight: 800; margin-bottom: 20px; }
+    .sub { font-size: clamp(1.05rem, 2.1vw, 1.22rem); color: var(--ink-dim); max-width: 30ch; margin-bottom: 30px; }
+
+    /* ---------- Email form ---------- */
+    .signup { max-width: 440px; }
+    .field-row { display: flex; gap: 10px; }
+    .signup input[type="email"] {
+      flex: 1; min-width: 0;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border);
+      color: var(--ink); font-size: 1rem;
+      padding: 15px 17px; border-radius: 13px;
+      transition: border-color .2s, box-shadow .2s;
+    }
+    .signup input::placeholder { color: var(--ink-faint); }
+    .signup input:focus { outline: none; border-color: rgba(249,115,22,0.6); box-shadow: 0 0 0 3px rgba(249,115,22,0.14); }
+    .btn {
+      border: none; cursor: pointer; white-space: nowrap;
+      font-family: inherit; font-size: 1rem; font-weight: 700; color: #fff;
+      padding: 15px 24px; border-radius: 13px;
+      background: linear-gradient(100deg, var(--accent-a), var(--accent-b));
+      box-shadow: 0 8px 22px -8px rgba(239, 68, 68, 0.6);
+      transition: transform .12s ease, box-shadow .2s, opacity .2s;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 12px 28px -8px rgba(239, 68, 68, 0.7); }
+    .btn:active { transform: translateY(0); }
+    .btn[disabled] { opacity: 0.6; cursor: progress; }
+    .form-note { font-size: 0.85rem; color: var(--ink-faint); margin-top: 12px; display: flex; align-items: center; gap: 7px; }
+    .form-note svg { flex: none; }
+    .form-msg { margin-top: 12px; font-size: 0.92rem; min-height: 1.2em; }
+    .form-msg.ok { color: #4ade80; }
+    .form-msg.err { color: #f87171; }
+
+    .signup.done .field-row, .signup.done .form-note { display: none; }
+    .success-card {
+      display: none; align-items: flex-start; gap: 13px;
+      background: rgba(74, 222, 128, 0.08); border: 1px solid rgba(74, 222, 128, 0.3);
+      padding: 18px 20px; border-radius: 14px;
+    }
+    .signup.done .success-card { display: flex; }
+    .success-card .check { flex: none; width: 26px; height: 26px; border-radius: 50%; background: #22c55e; display: grid; place-items: center; }
+    .success-card strong { display: block; color: var(--ink); margin-bottom: 2px; }
+    .success-card p { color: var(--ink-dim); font-size: 0.93rem; }
+
+    /* ---------- Phone mockup ---------- */
+    .phone-stage { display: flex; justify-content: center; perspective: 1400px; }
+    .phone {
+      width: 304px; background: #0b1424; border-radius: 40px;
+      border: 1px solid rgba(148,163,184,0.18);
+      padding: 14px; box-shadow: 0 40px 90px -30px rgba(0,0,0,0.8), 0 0 0 8px rgba(15,23,42,0.6);
+      transform: rotateY(-13deg) rotateX(4deg) rotateZ(1deg);
+    }
+    .phone-screen { background: linear-gradient(180deg, #111c33, #0f172a); border-radius: 28px; padding: 24px 15px 20px; }
+    .ps-head { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+    .ps-head .pl { width: 26px; height: 26px; border-radius: 7px; }
+    .ps-head span { font-weight: 700; font-size: 0.98rem; }
+    .ps-head .day { margin-left: auto; font-size: 0.72rem; color: var(--ink-faint); }
+    .rcard { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 12px 13px; margin-bottom: 10px; display: flex; gap: 11px; align-items: center; }
+    .rcard .emoji { font-size: 1.2rem; width: 34px; height: 34px; border-radius: 10px; background: rgba(249,115,22,0.12); display: grid; place-items: center; flex: none; }
+    .rcard .body { min-width: 0; flex: 1; }
+    .rcard .row1 { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .rcard .t { font-size: 0.83rem; font-weight: 600; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .rcard .s { font-size: 0.73rem; color: var(--ink-dim); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+    .pill { font-size: 0.64rem; font-weight: 700; padding: 3px 8px; border-radius: 999px; white-space: nowrap; flex: none; }
+    .pill.warn { color: #fca5a5; background: rgba(239,68,68,0.14); border: 1px solid rgba(239,68,68,0.3); }
+    .pill.soon { color: #fdba74; background: rgba(249,115,22,0.14); border: 1px solid rgba(249,115,22,0.3); }
+    .pill.ok { color: #86efac; background: rgba(34,197,94,0.12); border: 1px solid rgba(34,197,94,0.28); }
+
+    /* ---------- Sections ---------- */
+    section { padding: 60px 0; }
+    .section-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-a); margin-bottom: 12px; }
+    h2 { font-size: clamp(1.7rem, 3.6vw, 2.3rem); letter-spacing: -0.025em; font-weight: 800; margin-bottom: 14px; line-height: 1.12; }
+    .lead { color: var(--ink-dim); font-size: 1.08rem; max-width: 56ch; }
+
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; }
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 26px 24px;
+      backdrop-filter: blur(8px);
+    }
+    .card .ico { font-size: 1.7rem; margin-bottom: 14px; display: block; }
+    .card h3 { font-size: 1.12rem; margin-bottom: 7px; letter-spacing: -0.01em; }
+    .card p { color: var(--ink-dim); font-size: 0.96rem; }
+
+    /* steps */
+    .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 40px; counter-reset: step; }
+    .step { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 26px 24px; position: relative; }
+    .step .num {
+      width: 36px; height: 36px; border-radius: 10px; display: grid; place-items: center;
+      font-weight: 800; color: #fff; margin-bottom: 16px;
+      background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+    }
+    .step h3 { font-size: 1.1rem; margin-bottom: 7px; }
+    .step p { color: var(--ink-dim); font-size: 0.96rem; }
+
+    /* privacy */
+    .privacy { background: rgba(15,23,42,0.5); border: 1px solid var(--border); border-radius: 26px; padding: 46px clamp(24px, 5vw, 52px); }
+    .privacy-grid { display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 44px; align-items: center; }
+    .plist { list-style: none; display: grid; gap: 16px; }
+    .plist li { display: flex; gap: 13px; align-items: flex-start; }
+    .plist .pi { flex: none; width: 30px; height: 30px; border-radius: 9px; background: rgba(249,115,22,0.12); display: grid; place-items: center; }
+    .plist strong { display: block; font-size: 0.99rem; }
+    .plist span { color: var(--ink-dim); font-size: 0.92rem; }
+    .policy-link { display: inline-flex; align-items: center; gap: 6px; margin-top: 26px; color: var(--accent-a); text-decoration: none; font-weight: 600; font-size: 0.96rem; }
+    .policy-link:hover { gap: 9px; }
+
+    /* final CTA */
+    .final { text-align: center; background: linear-gradient(180deg, rgba(30,41,59,0.5), rgba(15,23,42,0.2)); border: 1px solid var(--border); border-radius: 28px; padding: 56px 24px; }
+    .final h2 { margin-bottom: 12px; }
+    .final .lead { margin: 0 auto 30px; }
+    .final .signup { margin: 0 auto; }
+    .final .form-note { justify-content: center; }
+
+    /* footer */
+    footer { padding: 40px 0 54px; border-top: 1px solid var(--border); margin-top: 30px; }
+    .foot-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--ink-faint); font-size: 0.9rem; }
+    .foot-row a { color: var(--ink-dim); text-decoration: none; }
+    .foot-row a:hover { color: var(--ink); }
+    .foot-links { display: flex; gap: 22px; }
+
+    /* ---------- Responsive ---------- */
+    @media (max-width: 860px) {
+      .hero { grid-template-columns: 1fr; gap: 44px; padding: 30px 0 50px; }
+      .phone-stage { order: -1; }
+      .phone { transform: none; width: 260px; }
+      .sub { max-width: none; }
+      .grid-3, .steps { grid-template-columns: 1fr; }
+      .privacy-grid { grid-template-columns: 1fr; gap: 30px; }
+      nav .nav-cta { display: none; }
+    }
+    @media (max-width: 440px) {
+      .field-row { flex-direction: column; }
+      .btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <!-- NAV -->
+    <nav>
+      <div class="brand">
+        <svg class="logo" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <linearGradient id="lbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e293b"/><stop offset="1" stop-color="#0f172a"/></linearGradient>
+            <linearGradient id="lbar" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f97316"/><stop offset="1" stop-color="#ef4444"/></linearGradient>
+          </defs>
+          <rect width="100" height="100" rx="22" fill="url(#lbg)"/>
+          <rect x="22" y="20" width="10" height="60" rx="4" fill="url(#lbar)"/>
+          <rect x="22" y="20" width="54" height="10" rx="4" fill="url(#lbar)"/>
+          <rect x="22" y="45" width="40" height="10" rx="4" fill="url(#lbar)"/>
+          <rect x="22" y="70" width="26" height="10" rx="4" fill="url(#lbar)"/>
+        </svg>
+        Expiry
+      </div>
+      <a href="#join" class="nav-cta">Join the waitlist</a>
+    </nav>
+
+    <!-- HERO -->
+    <header class="hero">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> Coming soon · iPhone</span>
+        <h1>Never miss a <span class="gradient-text">return window</span> again.</h1>
+        <p class="sub">Expiry quietly scans your inbox for receipts and warranties, then reminds you before the deadline — so you actually get your money back.</p>
+
+        <form class="signup" id="signup-hero" novalidate>
+          <div class="field-row">
+            <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address" />
+            <button type="submit" class="btn">Get early access</button>
+          </div>
+          <div class="form-note">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            No spam — one email when Expiry opens up. Unsubscribe anytime.
+          </div>
+          <div class="form-msg" role="status" aria-live="polite"></div>
+          <div class="success-card">
+            <span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06210f" stroke-width="3.5"><path d="M5 13l4 4L19 7"/></svg></span>
+            <div><strong>You're on the list.</strong><p>We'll email you the moment early access opens. Thanks for being early.</p></div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Phone mockup -->
+      <div class="phone-stage">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="ps-head">
+              <svg class="pl" viewBox="0 0 100 100" aria-hidden="true">
+                <rect width="100" height="100" rx="22" fill="url(#lbg)"/>
+                <rect x="22" y="20" width="10" height="60" rx="4" fill="url(#lbar)"/>
+                <rect x="22" y="20" width="54" height="10" rx="4" fill="url(#lbar)"/>
+                <rect x="22" y="45" width="40" height="10" rx="4" fill="url(#lbar)"/>
+                <rect x="22" y="70" width="26" height="10" rx="4" fill="url(#lbar)"/>
+              </svg>
+              <span>Upcoming</span>
+              <span class="day">Today</span>
+            </div>
+
+            <div class="rcard">
+              <span class="emoji">📦</span>
+              <div class="body">
+                <div class="row1"><span class="t">Nike Air Zoom</span><span class="pill warn">5 days</span></div>
+                <div class="s">Return by Jun 18</div>
+              </div>
+            </div>
+            <div class="rcard">
+              <span class="emoji">🎧</span>
+              <div class="body">
+                <div class="row1"><span class="t">Sony XM5</span><span class="pill soon">2-yr cover</span></div>
+                <div class="s">Warranty ends Jul 2</div>
+              </div>
+            </div>
+            <div class="rcard">
+              <span class="emoji">🔁</span>
+              <div class="body">
+                <div class="row1"><span class="t">Notion Plus</span><span class="pill warn">7 days</span></div>
+                <div class="s">Renews Jun 20 · $96/yr</div>
+              </div>
+            </div>
+            <div class="rcard">
+              <span class="emoji">🛋️</span>
+              <div class="body">
+                <div class="row1"><span class="t">West Elm chair</span><span class="pill ok">28 days</span></div>
+                <div class="s">Return by Jul 11</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+  </div>
+
+  <!-- PROBLEM -->
+  <section class="wrap">
+    <div class="section-label">The quiet money leak</div>
+    <h2>You bought it. You meant to deal with it. The window closed.</h2>
+    <p class="lead">Returns, warranties, and free trials all come with deadlines buried in your inbox — and missing them costs you real money, a little at a time.</p>
+    <div class="grid-3">
+      <div class="card">
+        <span class="ico">🛍️</span>
+        <h3>Returns expire</h3>
+        <p>It didn't fit, you got busy, and the 30-day return window quietly closed. Now you own it.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🛡️</span>
+        <h3>Warranties forgotten</h3>
+        <p>It broke in month 13. It had a two-year warranty you completely forgot you had.</p>
+      </div>
+      <div class="card">
+        <span class="ico">🔁</span>
+        <h3>Trials auto-renew</h3>
+        <p>That free trial you meant to cancel just billed you again — for the third month running.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="wrap">
+    <div class="section-label">How it works</div>
+    <h2>Set it once. Expiry watches the deadlines for you.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h3>Connect your inbox</h3>
+        <p>Sign in with Google. Expiry gets <strong>read-only</strong> access — it can never send, delete, or change a thing.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h3>We find your purchases</h3>
+        <p>Order confirmations, receipts, warranties and subscriptions — pulled together automatically, no forwarding or scanning receipts by hand.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h3>Get reminded in time</h3>
+        <p>A clear heads-up before every return window, warranty expiry, and renewal — while you can still do something about it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRIVACY -->
+  <section class="wrap">
+    <div class="privacy">
+      <div class="privacy-grid">
+        <div>
+          <div class="section-label">Built on trust</div>
+          <h2>Reading your inbox is a big deal. We treat it that way.</h2>
+          <p class="lead">Expiry only works because you let it look at your email — so we hold that to the strictest standard, and we're upfront about exactly what it can and can't do.</p>
+          <a class="policy-link" href="/privacy-expiry/">Read our full privacy policy →</a>
+        </div>
+        <ul class="plist">
+          <li>
+            <span class="pi">🔒</span>
+            <div><strong>Read-only, always</strong><span>Expiry can never send, delete, or modify your email. It only reads.</span></div>
+          </li>
+          <li>
+            <span class="pi">🎯</span>
+            <div><strong>Only purchase emails</strong><span>It searches for receipts and order confirmations — not your personal messages.</span></div>
+          </li>
+          <li>
+            <span class="pi">🚫</span>
+            <div><strong>Never sold, never used to train AI</strong><span>Your data is never sold to advertisers or fed into AI models. Ever.</span></div>
+          </li>
+          <li>
+            <span class="pi">🗑️</span>
+            <div><strong>Delete everything in one tap</strong><span>Wipe your account and all your data whenever you want, right from the app.</span></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="wrap" id="join">
+    <div class="final">
+      <div class="section-label" style="justify-self:center">Early access</div>
+      <h2>Be first in line.</h2>
+      <p class="lead">We're opening Expiry to a small group of early users first. Add your email and we'll let you in.</p>
+
+      <form class="signup" id="signup-final" novalidate>
+        <div class="field-row">
+          <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address" />
+          <button type="submit" class="btn">Join the waitlist</button>
+        </div>
+        <div class="form-note" style="justify-content:center">No spam — just one email when it's your turn.</div>
+        <div class="form-msg" role="status" aria-live="polite"></div>
+        <div class="success-card">
+          <span class="check"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#06210f" stroke-width="3.5"><path d="M5 13l4 4L19 7"/></svg></span>
+          <div><strong>You're on the list.</strong><p>We'll email you the moment early access opens.</p></div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="wrap">
+    <div class="foot-row">
+      <div>© 2026 RedBeak LLC · Made for people who hate wasting money.</div>
+      <div class="foot-links">
+        <a href="/privacy-expiry/">Privacy</a>
+        <a href="mailto:redbeakdev@gmail.com">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ===================================================================
+    //  WAITLIST ENDPOINT — set this to start collecting real emails.
+    //  Easiest: create a free form at https://formspree.io (or Tally /
+    //  ConvertKit / Buttondown) and paste its POST endpoint below.
+    //  Until you set it, the form runs in PREVIEW mode (shows the success
+    //  state but does NOT store the email).
+    // ===================================================================
+    const WAITLIST_ENDPOINT = "https://formspree.io/f/YOUR_FORM_ID";
+
+    const isConfigured = !WAITLIST_ENDPOINT.includes("YOUR_FORM_ID");
+
+    function wireForm(form) {
+      const msg = form.querySelector(".form-msg");
+      const input = form.querySelector('input[type="email"]');
+      const btn = form.querySelector("button");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        msg.textContent = "";
+        msg.className = "form-msg";
+
+        const email = input.value.trim();
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+          msg.textContent = "Please enter a valid email address.";
+          msg.classList.add("err");
+          input.focus();
+          return;
+        }
+
+        // Preview mode — no endpoint configured yet.
+        if (!isConfigured) {
+          console.warn("[waitlist] No endpoint set — preview mode. Email NOT stored:", email);
+          form.classList.add("done");
+          return;
+        }
+
+        btn.disabled = true;
+        const original = btn.textContent;
+        btn.textContent = "Joining…";
+        try {
+          const res = await fetch(WAITLIST_ENDPOINT, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify({ email: email, source: "expiry-landing" }),
+          });
+          if (res.ok) {
+            form.classList.add("done");
+          } else {
+            throw new Error("bad status " + res.status);
+          }
+        } catch (err) {
+          console.error("[waitlist] submit failed:", err);
+          msg.textContent = "Something went wrong — please try again, or email redbeakdev@gmail.com.";
+          msg.classList.add("err");
+          btn.disabled = false;
+          btn.textContent = original;
+        }
+      });
+    }
+
+    document.querySelectorAll("form.signup").forEach(wireForm);
+  </script>
+</body>
+</html>
