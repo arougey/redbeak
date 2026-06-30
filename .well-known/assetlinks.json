@@ -1,0 +1,15 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls",
+      "delegate_permission/common.get_login_creds"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.redbeak.soundbuilder",
+      "sha256_cert_fingerprints": [
+        "14:2D:C9:BD:A6:68:B2:D3:25:AD:59:2E:00:71:E3:D3:6D:17:16:8B:4D:64:48:39:6A:6E:91:C4:6B:8C:16:A0"
+      ]
+    }
+  }
+]
