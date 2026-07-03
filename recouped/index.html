@@ -11,6 +11,7 @@
   <meta property="og:description" content="Your receipts, returns, and warranties — tracked automatically from your inbox. Join the early-access waitlist." />
   <meta property="og:url" content="https://redbeak.app/recouped/" />
   <meta name="theme-color" content="#0a0a0b" />
+  <link rel="icon" type="image/png" href="logo.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -250,17 +251,9 @@
       <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol>
       <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></symbol>
       <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+      <symbol id="i-zap" viewBox="0 0 24 24"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></symbol>
       <symbol id="i-bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
       <symbol id="i-headphones" viewBox="0 0 24 24"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></symbol>
-      <symbol id="i-logo-bars" viewBox="0 0 100 100"><rect x="22" y="20" width="10" height="60" rx="4"/><rect x="22" y="20" width="54" height="10" rx="4"/><rect x="22" y="45" width="40" height="10" rx="4"/><rect x="22" y="70" width="26" height="10" rx="4"/></symbol>
-    </defs>
-  </svg>
-
-  <!-- Reusable logo mark (gradient kept — it's the brand, used small) -->
-  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-    <defs>
-      <linearGradient id="lbg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1e293b"/><stop offset="1" stop-color="#0f172a"/></linearGradient>
-      <linearGradient id="lbar" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#f97316"/><stop offset="1" stop-color="#ef4444"/></linearGradient>
     </defs>
   </svg>
 
@@ -269,10 +262,7 @@
     <div class="wrap">
       <nav class="nav">
         <a class="brand" href="/recouped/" style="text-decoration:none">
-          <svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
-            <rect width="100" height="100" rx="24" fill="url(#lbg)"/>
-            <use href="#i-logo-bars" fill="url(#lbar)" stroke="none"/>
-          </svg>
+          <img class="logo" src="logo.png" alt="" width="128" height="128" />
           Recouped
         </a>
         <div class="nav-right">
@@ -299,6 +289,10 @@
               <button type="submit" class="btn btn-primary">Get early access</button>
             </div>
             <div class="form-note">
+              <svg class="icon"><use href="#i-zap"/></svg>
+              First 100 beta testers get Premium free — for life.
+            </div>
+            <div class="form-note">
               <svg class="icon"><use href="#i-lock"/></svg>
               Read-only access. No spam and one email when Recouped releases.
             </div>
@@ -314,10 +308,7 @@
         <div class="device">
           <div class="screen">
             <div class="screen-head">
-              <svg class="pl" viewBox="0 0 100 100" aria-hidden="true">
-                <rect width="100" height="100" rx="24" fill="url(#lbg)"/>
-                <use href="#i-logo-bars" fill="url(#lbar)" stroke="none"/>
-              </svg>
+              <img class="pl" src="logo.png" alt="" width="128" height="128" />
               <span class="ttl">Upcoming</span>
               <span class="day">Today</span>
             </div>
@@ -435,9 +426,9 @@
   <section class="final" id="join">
     <div class="wrap">
       <div class="final-panel reveal">
-        <span class="eyebrow accent">Early access</span>
-        <h2 style="margin-top:16px">Be first in line.</h2>
-        <p class="lead">We're opening Recouped to a small group of early users first. Add your email and we'll let you in.</p>
+        <span class="eyebrow accent">Founding members</span>
+        <h2 style="margin-top:16px">First 100 get Premium for life.</h2>
+        <p class="lead">We're opening Recouped to 100 founding members. Join the beta, help shape the app, and keep every Premium feature free — forever.</p>
         <form class="signup" id="signup-final" novalidate>
           <div class="field-row">
             <input type="email" name="email" placeholder="you@email.com" autocomplete="email" required aria-label="Email address" />
