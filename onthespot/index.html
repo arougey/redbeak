@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>On The Spot: Party Games</title>
+  <meta name="description" content="Fourteen party games and 3,000+ cards on one phone. Pass it round and play." />
+  <meta property="og:title" content="On The Spot: Party Games" />
+  <meta property="og:description" content="Fourteen party games and 3,000+ cards on one phone. Pass it round and play." />
+  <meta property="og:image" content="https://redbeak.app/onthespot/icon.png" />
+  <meta property="og:url" content="https://redbeak.app/onthespot" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="icon" href="/onthespot/icon.png" />
+  <!--
+    One link for both stores. Phones never see this page: vercel.json redirects
+    iPhone and Android user agents straight to their store on the server, which
+    also works inside the TikTok and Instagram in-app browsers. The script below
+    is a second try for anything the header match misses; computers and
+    everything else get the two buttons.
+  -->
+  <script>
+    (function () {
+      var ua = navigator.userAgent || '';
+      if (/iPhone|iPad|iPod/.test(ua)) location.replace('https://apps.apple.com/app/id6803832007');
+      else if (/Android/.test(ua)) location.replace('https://play.google.com/store/apps/details?id=com.redbeak.onthespot');
+    })();
+  </script>
+  <style>
+    :root { color-scheme: light dark; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #1c1c1e;
+      background: #f5f5f7;
+    }
+    @media (prefers-color-scheme: dark) {
+      body { color: #f5f5f7; background: #111113; }
+      .card { background: #1c1c1e !important; }
+    }
+    .wrap { max-width: 480px; margin: 0 auto; padding: 64px 20px; text-align: center; }
+    .icon { width: 112px; height: 112px; border-radius: 26px; box-shadow: 0 2px 10px rgba(0,0,0,0.18); }
+    h1 { font-size: 2rem; margin: 20px 0 4px; }
+    .sub { opacity: 0.7; margin-top: 0; }
+    .card {
+      background: #fff;
+      border-radius: 14px;
+      padding: 24px;
+      margin-top: 28px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+      display: grid;
+      gap: 12px;
+    }
+    .store {
+      display: block;
+      padding: 14px 18px;
+      border-radius: 12px;
+      background: #0a7cff;
+      color: #fff;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .store:hover { filter: brightness(1.08); }
+    footer { margin-top: 40px; font-size: 0.85rem; opacity: 0.6; }
+    footer a { color: inherit; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <img class="icon" src="/onthespot/icon.png" alt="On The Spot app icon" />
+    <h1>On The Spot</h1>
+    <p class="sub">Fourteen party games and 3,000+ cards on one phone.</p>
+
+    <div class="card">
+      <a class="store" href="https://apps.apple.com/app/id6803832007">Download on the App Store</a>
+      <a class="store" href="https://play.google.com/store/apps/details?id=com.redbeak.onthespot">Get it on Google Play</a>
+    </div>
+
+    <footer>
+      <a href="https://redbeak.app/onthespot-support">Support</a> ·
+      <a href="https://redbeak.app/onthespot-privacy">Privacy</a> ·
+      <a href="https://redbeak.app/onthespot-terms">Terms</a>
+    </footer>
+  </div>
+</body>
+</html>
